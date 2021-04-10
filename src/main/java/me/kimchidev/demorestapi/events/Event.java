@@ -2,6 +2,7 @@ package me.kimchidev.demorestapi.events;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Builder
@@ -15,8 +16,10 @@ import java.time.LocalDateTime;
     그런이유로 id의 값만 가지고 Equals랑 HashCode의 값을 비교할 수 있도록 지정함
 */
 @EqualsAndHashCode(of = "id")
+@Entity
 public class Event {
 
+    @Id @GeneratedValue
     private Integer id;
     private String name;
     private String description;
@@ -30,6 +33,9 @@ public class Event {
     private int limitOfEnrollment;
     private boolean offLine;
     private boolean free;
+
+
+    @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
 
 
