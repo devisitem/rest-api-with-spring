@@ -116,4 +116,32 @@ class EventControllerTest {
     }
 
 
+    @Test
+    public void createEvent_Bad_Request_Wrong_Input() throws Exception {
+        //given
+        EventDto eventDto = EventDto.builder()
+                .name("Spring")
+                .description("REST PAI Development with Spring")
+                .beginEnrollmentDateTime(LocalDateTime.of(2021,04,13,21,31))
+                .closeEnrollmentDateTime(LocalDateTime.of(2021,04,12,21,31))
+                .beginEventDateTime(LocalDateTime.of(2021,04,11,21,31))
+                .endEventDateTime(LocalDateTime.of(2021,04,10,21,34))
+                .basePrice(10000)
+                .maxPrice(200)
+                .limitOfEnrollment(100)
+                .location("강남역 d2 스타텁 팩토리")
+                .build();
+
+        mockMvc.perform(post("/api/events")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(eventDto)))
+                .andExpect(status().isBadRequest());
+
+        //when
+
+        //then
+
+    }
+
+
 }
