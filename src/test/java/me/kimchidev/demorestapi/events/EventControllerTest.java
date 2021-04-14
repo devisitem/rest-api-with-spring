@@ -1,8 +1,10 @@
 package me.kimchidev.demorestapi.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.kimchidev.demorestapi.common.TestDescripion;
 import org.apache.tomcat.jni.Local;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,6 +34,7 @@ class EventControllerTest {
     ObjectMapper objectMapper;
 
     @Test
+    @DisplayName("정상적으로 이벤트를 생성하는 테스트")
     public void createEvent() throws Exception {
         //given
         EventDto event = EventDto.builder()
@@ -68,6 +71,7 @@ class EventControllerTest {
 
 
     @Test
+    @DisplayName("입력받을수 없는 값을 사용한경우에 에러가 발생하는 테스트")
     public void createEvent_Bad_Request() throws Exception {
         //given
         Event event = Event.builder()
@@ -99,6 +103,7 @@ class EventControllerTest {
     }
 
     @Test
+    @DisplayName("입력값이 비어있는경우에 에러가 발생하는 테스트")
     public void createEvent_Bad_Request_Empty_Input() throws Exception {
         //given
         EventDto eventDto = EventDto.builder().build();
@@ -117,6 +122,7 @@ class EventControllerTest {
 
 
     @Test
+    @DisplayName("입력값이 잘못된 경우에 에러가 발생하는 테스트")
     public void createEvent_Bad_Request_Wrong_Input() throws Exception {
         //given
         EventDto eventDto = EventDto.builder()
@@ -135,7 +141,11 @@ class EventControllerTest {
         mockMvc.perform(post("/api/events")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(eventDto)))
-                .andExpect(status().isBadRequest());
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].objectName").exists())
+                .andExpect(jsonPath("$[0].defaultMessage").exists())
+                .andExpect(jsonPath("$[0].code").exists());
 
         //when
 
