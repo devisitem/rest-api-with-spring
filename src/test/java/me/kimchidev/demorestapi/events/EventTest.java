@@ -2,7 +2,12 @@ package me.kimchidev.demorestapi.events;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.stream.Stream;
 
 @SpringBootTest
 public class EventTest {
@@ -37,6 +42,58 @@ public class EventTest {
         Assertions.assertThat(event.getName()).isEqualTo(name);
         Assertions.assertThat(event.getDescription()).isEqualTo(description);
 
+    }
+
+    @Test
+    public void testFree(int basePrice, int maxPrice, boolean isFree) throws Exception {
+        //given
+        Event event = Event.builder()
+                .basePrice(basePrice)
+                .maxPrice(maxPrice)
+                .build();
+
+        //when
+        event.update();
+
+        //then
+        Assertions.assertThat(event.isFree()).isTrue();
+
+        //given
+        event = Event.builder()
+                .basePrice(100)
+                .maxPrice(0)
+                .build();
+
+        //when
+        event.update();
+
+        //then
+        Assertions.assertThat(event.isFree()).isEqualTo(isFree);
+
+
+    }
+    
+    @ParameterizedTest
+    @MethodSource("paramsForTestOffline")
+    public void testOffline(String location,boolean isOffLine) throws Exception {
+        //given
+        Event event = Event.builder()
+                .location(location)
+                .build();
+        
+        //when
+        event.update();
+        
+        //then
+        Assertions.assertThat(event.isOffLine()).isEqualTo(isOffLine);
+    }
+
+    private static Stream<Arguments> paramsForTestOffline(){
+        return Stream.of(
+                Arguments.of("강남역",true),
+                Arguments.of(null,false),
+                Arguments.of("      ",false)
+        );
     }
 
 }

@@ -3,6 +3,7 @@ package me.kimchidev.demorestapi.events;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.kimchidev.demorestapi.common.TestDescripion;
 import org.apache.tomcat.jni.Local;
+import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,9 +61,10 @@ class EventControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
-                .andExpect(header().string(HttpHeaders.CONTENT_TYPE,"application/hal+json"))
-                .andExpect(jsonPath("id").value(Matchers.not(100)))
-                .andExpect(jsonPath("free").value(Matchers.not(true)));
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE,MediaTypes.HAL_JSON_VALUE))
+                .andExpect(jsonPath("free").value(false))
+                .andExpect(jsonPath("offLine").value(true))
+                .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT.name()));
         //when
 
         //then
@@ -152,6 +154,8 @@ class EventControllerTest {
         //then
 
     }
+
+
 
 
 }

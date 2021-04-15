@@ -34,9 +34,23 @@ public class Event {
     private boolean offLine;
     private boolean free;
 
-
     @Enumerated(EnumType.STRING)
-    private EventStatus eventStatus;
+    private EventStatus eventStatus = EventStatus.DRAFT;
 
 
+    public void update() {
+
+        if(this.basePrice == 0 && this.maxPrice == 0) {
+            this.free = true;
+        } else {
+            this.free = false;
+        }
+
+        // Update offLine
+        if(this.location == null || this.location.isBlank()){
+            this.offLine = false;
+        } else {
+            this.offLine = true;
+        }
+    }
 }
