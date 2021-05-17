@@ -82,7 +82,8 @@ class EventControllerTest {
                         links(
                                 linkWithRel("self").description("link to self"),
                                 linkWithRel("query-events").description("link to query events"),
-                                linkWithRel("update-event").description("link to update an existing")
+                                linkWithRel("update-event").description("link to update an existing"),
+                                linkWithRel("profile").description("link to update an existing")
                         ),
                         requestFields(
                                 fieldWithPath("name").description("Name of new event"),
@@ -117,7 +118,9 @@ class EventControllerTest {
                                 fieldWithPath("eventStatus").description("eventStatus"),
                                 fieldWithPath("_links.self.href").description("link to self"),
                                 fieldWithPath("_links.query-events.href").description("link to query events"),
-                                fieldWithPath("_links.update-event.href").description("link to update events")
+                                fieldWithPath("_links.update-event.href").description("link to update events"),
+                                fieldWithPath("_links.profile.href").description("link to update events")
+
 
                         )
                 ));

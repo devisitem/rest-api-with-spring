@@ -44,7 +44,8 @@ public class EventTest {
 
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("paramsForTestFree")
     public void testFree(int basePrice, int maxPrice, boolean isFree) throws Exception {
         //given
         Event event = Event.builder()
@@ -93,6 +94,12 @@ public class EventTest {
                 Arguments.of("강남역",true),
                 Arguments.of(null,false),
                 Arguments.of("      ",false)
+        );
+    }
+
+    private static Stream<Arguments> paramsForTestFree(){
+        return Stream.of(
+                Arguments.of(0,0,false)
         );
     }
 

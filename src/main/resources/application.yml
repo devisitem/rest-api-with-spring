@@ -2,3 +2,7 @@ spring:
   jackson:
     deserialization:
       fail-on-unknown-properties: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: kimchidev
+    password: 1111
