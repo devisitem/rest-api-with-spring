@@ -76,6 +76,7 @@ public class EventController {
         Page<Event> page = this.eventRepository.findAll(pageable);
         var pagedResources = assembler.toModel(page,e -> new EventResource(e));
         System.out.println("EventController.queryEvents pagedResources : " +pagedResources);
+        System.out.println("EventController.queryEvents pagedResources : " +pagedResources);
         return ResponseEntity.ok(pagedResources);
     }
 
