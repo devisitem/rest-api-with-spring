@@ -74,9 +74,8 @@ public class EventController {
     @GetMapping
     public ResponseEntity queryEvents(Pageable pageable, PagedResourcesAssembler<Event> assembler) throws Exception{
         Page<Event> page = this.eventRepository.findAll(pageable);
-        var pagedResources = assembler.toModel(page,e -> new EventResource(e));
-        System.out.println("EventController.queryEvents pagedResources : " +pagedResources);
-        System.out.println("EventController.queryEvents pagedResources : " +pagedResources);
+        var pagedResources = assembler.toModel(page, event -> new EventResource(event));
+        pagedResources.add(Link.of("/docs/index.html#resources-events-list").withRel("profile"));
         return ResponseEntity.ok(pagedResources);
     }
 

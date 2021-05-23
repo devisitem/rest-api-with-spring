@@ -87,8 +87,8 @@ class EventControllerTest {
                         links(
                                 linkWithRel("self").description("link to self"),
                                 linkWithRel("query-events").description("link to query events"),
-                                linkWithRel("update-event").description("link to update an existing"),
-                                linkWithRel("profile").description("link to update an existing")
+                                linkWithRel("update-event").description("link to update an existing event"),
+                                linkWithRel("profile").description("link to update an existing event")
                         ),
                         requestFields(
                                 fieldWithPath("name").description("Name of new event"),
@@ -234,6 +234,58 @@ class EventControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("page").exists())
+                .andExpect(jsonPath("_embedded.eventList[0]._links.self").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document("query-events",
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel("profile").description("link to update an existing event"),
+                                linkWithRel("first").description("link to first page in data"),
+                                linkWithRel("last").description("link to last page in data"),
+                                linkWithRel("next").description("link to next page in data"),
+                                linkWithRel("prev").description("link to previous page in data")
+                        ),
+                        requestFields(
+                                fieldWithPath("name").description("Name of new event"),
+                                fieldWithPath("description").description("description of new event"),
+                                fieldWithPath("beginEnrollmentDateTime").description("data time of begin of new event"),
+                                fieldWithPath("closeEnrollmentDateTime").description("data time of close of new event"),
+                                fieldWithPath("beginEventDateTime").description("data time of begin of new event"),
+                                fieldWithPath("endEventDateTime").description("data time of close of new event"),
+                                fieldWithPath("location").description("location of new event"),
+                                fieldWithPath("basePrice").description("basePrice of new event"),
+                                fieldWithPath("maxPrice").description("maxPrice of new event"),
+                                fieldWithPath("limitOfEnrollment").description("limit of enrollment")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("Location Header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("HAL JSON")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("identifier of new event"),
+                                fieldWithPath("name").description("Name of new event"),
+                                fieldWithPath("description").description("description of new event"),
+                                fieldWithPath("beginEnrollmentDateTime").description("data time of begin of new event"),
+                                fieldWithPath("closeEnrollmentDateTime").description("data time of close of new event"),
+                                fieldWithPath("beginEventDateTime").description("data time of begin of new event"),
+                                fieldWithPath("endEventDateTime").description("data time of close of new event"),
+                                fieldWithPath("location").description("location of new event"),
+                                fieldWithPath("basePrice").description("basePrice of new event"),
+                                fieldWithPath("maxPrice").description("maxPrice of new event"),
+                                fieldWithPath("limitOfEnrollment").description("limit of enrollment"),
+                                fieldWithPath("free").description("it tells is this event is free or not"),
+                                fieldWithPath("offLine").description("it tells is this event is offline meeting or not"),
+                                fieldWithPath("eventStatus").description("eventStatus"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to update events"),
+                                fieldWithPath("_links.first.href").description("link to first page for this data"),
+                                fieldWithPath("_links.last.href").description("link to last page for this data"),
+                                fieldWithPath("_links.prev.href").description("link to previous page"),
+                                fieldWithPath("_links.next.href").description("link to next page")
+                        )
+
+                        ))
         ;
         //then
 
