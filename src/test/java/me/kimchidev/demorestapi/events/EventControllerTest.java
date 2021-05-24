@@ -230,7 +230,10 @@ class EventControllerTest {
         this.mockMvc.perform(get("/api/events")
                     .param("page","1")
                     .param("size","10")
-                    .param("sort","name,DESC"))
+                    .param("sort","name,DESC")
+                .content("")
+        )
+
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("page").exists())
