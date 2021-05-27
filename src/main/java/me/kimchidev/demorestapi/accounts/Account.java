@@ -1,6 +1,7 @@
 package me.kimchidev.demorestapi.accounts;
 
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -8,7 +9,7 @@ import java.util.Set;
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 @Builder @NoArgsConstructor @AllArgsConstructor
-public class Account {
+public class Account implements UserDetails {
 
     @Id @Generated
     private  Integer id;
