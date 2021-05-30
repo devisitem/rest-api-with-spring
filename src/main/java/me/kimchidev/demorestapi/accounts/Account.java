@@ -32,7 +32,7 @@ public class Account implements UserDetails {
     @Override
     public String getUsername() {
         return null;
-    }g
+    }
 
     @Override
     public boolean isAccountNonExpired() {

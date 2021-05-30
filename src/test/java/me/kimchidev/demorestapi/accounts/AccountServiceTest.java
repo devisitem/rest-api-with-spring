@@ -13,10 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class AccountServiceTest {
+public class AccountServiceTest {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @Test
     public void findByUserName() throws Exception {
@@ -28,14 +31,16 @@ class AccountServiceTest {
                 .password("kimchi")
                 .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
                 .build();
+        System.out.println("account = " + account);
+        this.accountRepository.save(account);
+
         //when
 
         UserDetailsService userDetailsService = accountService;
-        UserDetails kimchi = userDetailsService.loadUserByUsername("kimchi");
+        UserDetails kimchi = userDetailsService.loadUserByUsername(userName);
 
         //then
         assertEquals(kimchi.getPassword(),password);
-        assertEquals(kimchi.(),userName);
 
     }
 }
