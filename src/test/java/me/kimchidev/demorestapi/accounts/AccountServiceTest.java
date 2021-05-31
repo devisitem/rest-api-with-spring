@@ -31,7 +31,6 @@ public class AccountServiceTest {
                 .password("kimchi")
                 .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
                 .build();
-        System.out.println("account = " + account);
         this.accountRepository.save(account);
 
         //when
