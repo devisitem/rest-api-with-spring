@@ -13,7 +13,7 @@ import java.util.Set;
 @Builder @NoArgsConstructor @AllArgsConstructor
 public class Account implements UserDetails {
 
-    @Id @Generated
+    @Id @GeneratedValue
     private  Integer id;
 
     private String email;
