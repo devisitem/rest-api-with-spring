@@ -26,20 +26,6 @@ public class AccountServiceTest {
         //given
         String password = "kimchi";
         String userName = "kimchidev@gmail.com";
-        Account account = Account.builder()
-                .email("kimchidev@gmail.com")
-                .password("kimchi")
-                .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
-                .build();
-        this.accountRepository.save(account);
-
-        //when
-
-        UserDetailsService userDetailsService = accountService;
-        UserDetails kimchi = userDetailsService.loadUserByUsername(userName);
-
-        //then
-        assertEquals(kimchi.getPassword(),password);
 
     }
 }

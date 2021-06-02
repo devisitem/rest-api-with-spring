@@ -99,8 +99,16 @@ public class EventController {
             return badRequest(errors);
         }
 
-        this.eventValidator.validate(eventDto,errors);
-        return ResponseEntity.ok().body();
+        Event existingEvent = optionalEvent.get();
+        this.modelMapper.map(eventDto,existingEvent);
+        Event savedEvent = this.eventRepository.save(existingEvent);
+
+        EventResource eventResource = new EventResource(savedEvent);
+        eventResource.add(linkTo("/docs/index.html#resources-events-update").withRel("profile"));
+
+        return ResponseEntity.ok(eventResource);
+
+
     }
 
     private ResponseEntity<ErrorsResource> badRequest(Errors errors) {
