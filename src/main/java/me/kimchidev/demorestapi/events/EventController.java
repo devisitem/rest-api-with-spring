@@ -88,6 +88,21 @@ public class EventController {
         return ResponseEntity.ok(new EventResource(event));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity updateEvent(@PathVariable Integer id, @RequestBody @Valid EventDto eventDto,Errors errors) {
+        Optional<Event> optionalEvent = eventRepository.findById(id);
+        if(optionalEvent.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        if(errors.hasErrors()){
+            return badRequest(errors);
+        }
+
+        this.eventValidator.validate(eventDto,errors);
+        return ResponseEntity.ok().body();
+    }
+
     private ResponseEntity<ErrorsResource> badRequest(Errors errors) {
         return ResponseEntity.badRequest().body(new ErrorsResource(errors));
     }

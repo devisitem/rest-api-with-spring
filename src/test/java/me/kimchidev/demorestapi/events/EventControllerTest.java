@@ -388,7 +388,7 @@ class EventControllerTest {
                 .content(this.objectMapper.writeValueAsString(eventDto))
         )
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     
     }
 
