@@ -355,10 +355,12 @@ class EventControllerTest {
     public void updateEvent400_Wrong() throws Exception {
         //given
         Event event = this.generateEvent(200);
+        String eventName = "event";
         //영속화된 객체를 modelmapper로 dto변환
         EventDto eventDto = this.modelMapper.map(event, EventDto.class);
-        String eventName = "Update Event";
-        eventDto.setName(eventName);
+
+        eventDto.setBasePrice(20000);
+        eventDto.setMaxPrice(1000);
 
         //when & then
         this.mockMvc.perform(put("/api/events/{id}",event.getId())
@@ -371,7 +373,24 @@ class EventControllerTest {
                 .andExpect(jsonPath("_links.self").exists());
 
     }
+    
+    @Test
+    @DisplayName("존재하지 않는 이벤트 수정실패")
+    public void updateEvent404() throws Exception {
+        //given
+        Event event = this.generateEvent(200);
+        //영속화된 객체를 modelmapper로 dto변환
+        EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 
+        //when & then
+        this.mockMvc.perform(put("/api/events/1231312",event.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(eventDto))
+        )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    
+    }
 
     @Test
     @DisplayName("입력값이 비어있는 경우에 이벤트 수정 실패")
