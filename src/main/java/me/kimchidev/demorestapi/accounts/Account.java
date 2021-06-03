@@ -1,8 +1,6 @@
 package me.kimchidev.demorestapi.accounts;
 
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;

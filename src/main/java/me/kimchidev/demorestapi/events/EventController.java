@@ -1,6 +1,7 @@
 package me.kimchidev.demorestapi.events;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.kimchidev.demorestapi.common.ErrorsResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -21,11 +22,11 @@ import java.net.URI;
 import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Controller
 @RequestMapping(value = "/api/events",produces = MediaTypes.HAL_JSON_VALUE)
 //produce 설정시 해당타입으로 모든응답을 보낸다.
+@Slf4j
 @RequiredArgsConstructor
 public class EventController {
 
@@ -74,6 +75,7 @@ public class EventController {
         Page<Event> page = this.eventRepository.findAll(pageable);
         var pagedResources = assembler.toModel(page, event -> new EventResource(event));
         pagedResources.add(Link.of("/docs/index.html#resources-events-list").withRel("profile"));
+        System.out.println("pagedResources = " + pagedResources);
         return ResponseEntity.ok(pagedResources);
     }
 
@@ -99,6 +101,7 @@ public class EventController {
             return badRequest(errors);
         }
 
+        log.info("there are no errors still now ");
         Event existingEvent = optionalEvent.get();
         this.modelMapper.map(eventDto,existingEvent);
         Event savedEvent = this.eventRepository.save(existingEvent);
