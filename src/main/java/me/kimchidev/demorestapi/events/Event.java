@@ -1,6 +1,7 @@
 package me.kimchidev.demorestapi.events;
 
 import lombok.*;
+import me.kimchidev.demorestapi.accounts.Account;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -36,7 +37,8 @@ public class Event {
 
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus = EventStatus.DRAFT;
-
+    @ManyToOne
+    private Account manager;
 
     public void update() {
 

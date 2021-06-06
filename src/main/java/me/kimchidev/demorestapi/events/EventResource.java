@@ -12,8 +12,8 @@ public class EventResource extends EntityModel<Event> {
     private Event event;
 
     public EventResource(Event event,Link... links) {
-        super(event,links);
-        add(linkTo(EventController.class).slash(event.getId()).withSelfRel());
+        super(event,links);/*
+        add(linkTo(EventController.class).slash(event.getId()).withSelfRel());*/
     }
 
 }

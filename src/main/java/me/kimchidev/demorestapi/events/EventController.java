@@ -23,7 +23,7 @@ import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
-@Controller
+@RestController
 @RequestMapping(value = "/api/events",produces = MediaTypes.HAL_JSON_VALUE)
 //produce 설정시 해당타입으로 모든응답을 보낸다.
 @Slf4j
@@ -36,6 +36,7 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity createEvent(@RequestBody @Valid EventDto eventDto, Errors errors) throws Exception{
+        System.out.println("EventController.createEvent Allowed Test");
         if(errors.hasErrors()){
             System.out.println("Bad Request !");
             return badRequest(errors);
@@ -91,19 +92,26 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateEvent(@PathVariable Integer id, @RequestBody @Valid EventDto eventDto,Errors errors) {
+    public ResponseEntity updateEvent(@PathVariable Integer id,
+                                      @RequestBody @Valid EventDto eventDto,
+                                      Errors errors) {
         Optional<Event> optionalEvent = eventRepository.findById(id);
         if(optionalEvent.isEmpty()){
             return ResponseEntity.notFound().build();
         }
 
         if(errors.hasErrors()){
+            log.debug("hasErrors = {} ",errors);
             return badRequest(errors);
         }
-
+        this.eventValidator.validate(eventDto,errors);
+        if(errors.hasErrors()){
+            return badRequest(errors);
+        }
         log.info("there are no errors still now ");
         Event existingEvent = optionalEvent.get();
         this.modelMapper.map(eventDto,existingEvent);
+
         Event savedEvent = this.eventRepository.save(existingEvent);
 
         EventResource eventResource = new EventResource(savedEvent);

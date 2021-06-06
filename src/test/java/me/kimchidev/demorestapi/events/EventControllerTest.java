@@ -1,6 +1,7 @@
 package me.kimchidev.demorestapi.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.kimchidev.demorestapi.accounts.BaseControllerTest;
 import me.kimchidev.demorestapi.common.RestDocsConfiguration;
 import me.kimchidev.demorestapi.common.TestDescripion;
 import org.apache.tomcat.jni.Local;
@@ -34,24 +35,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureRestDocs
-@Import(RestDocsConfiguration.class)
-@ActiveProfiles("test")
-class EventControllerTest {
 
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
+public class EventControllerTest extends BaseControllerTest {
 
     @Autowired
     EventRepository eventRepository;
 
-    @Autowired
-    ModelMapper modelMapper;
+
 
     @Test
     @DisplayName("정상적으로 이벤트를 생성하는 테스트")
@@ -355,7 +345,6 @@ class EventControllerTest {
     public void updateEvent400_Wrong() throws Exception {
         //given
         Event event = this.generateEvent(200);
-        String eventName = "event";
         //영속화된 객체를 modelmapper로 dto변환
         EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 
@@ -369,7 +358,6 @@ class EventControllerTest {
                     )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value(eventName))
                 .andExpect(jsonPath("_links.self").exists());
 
     }
@@ -411,6 +399,7 @@ class EventControllerTest {
                 .andExpect(status().isBadRequest());
 
     }
+
 
     private Event generateEvent(int i) {
         Event event = Event.builder()

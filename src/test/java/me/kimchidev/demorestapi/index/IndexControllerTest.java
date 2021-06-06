@@ -1,5 +1,6 @@
 package me.kimchidev.demorestapi.index;
 
+import me.kimchidev.demorestapi.accounts.BaseControllerTest;
 import me.kimchidev.demorestapi.common.RestDocsConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureRestDocs
-@Import(RestDocsConfiguration.class)
-@ActiveProfiles("test")
-public class IndexControllerTest {
+public class IndexControllerTest extends BaseControllerTest {
 
-    @Autowired
-    MockMvc mockMvc;
+
 
     @Test
     public void index() throws Exception {
