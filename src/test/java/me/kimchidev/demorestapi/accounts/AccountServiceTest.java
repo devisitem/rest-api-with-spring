@@ -22,18 +22,25 @@ public class  AccountServiceTest {
     @Autowired
     AccountRepository accountRepository;
 
+
     @Test
     public void findByUserName() throws Exception {
-
+        //Given
+        String username = "kimchidev@gmail.com";
+        String password = "kimchi";
         Account account = Account.builder()
                 .email("kimchidev@gmail.com")
                 .password("kimchi")
                 .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
                 .build();
-
+        //When
+        accountRepository.save(account);
         UserDetailsService userDetailsService = (UserDetailsService) accountService;
-        UserDetails acoount = userDetailsService.loadUserByUsername("kimchi");
+        UserDetails userDetails = userDetailsService.loadUserByUsername("kimchidev@gmail.com");
 
+        //Then
+        assertEquals(userDetails.getPassword(),password);
+        assertEquals(userDetails.getUsername(),username);
 
     }
 }
