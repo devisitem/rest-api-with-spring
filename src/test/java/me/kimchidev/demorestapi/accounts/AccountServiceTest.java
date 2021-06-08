@@ -1,11 +1,14 @@
 package me.kimchidev.demorestapi.accounts;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Set;
@@ -42,5 +45,21 @@ public class  AccountServiceTest {
         assertEquals(userDetails.getPassword(),password);
         assertEquals(userDetails.getUsername(),username);
 
+    }
+    @Test
+    public void findByUserNameFail() throws Exception {
+        //given 
+        String userName = "testKimchi@test.com";
+        try{
+            accountService.loadUserByUsername(userName);
+            fail("supposed to be failed");
+        }catch(UsernameNotFoundException e){
+            Assertions.assertThat(e.getMessage()).containsSequence(userName);
+        }
+
+        //when
+        
+        //then
+    
     }
 }
