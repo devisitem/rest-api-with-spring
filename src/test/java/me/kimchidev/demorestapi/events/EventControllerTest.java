@@ -420,5 +420,23 @@ public class EventControllerTest extends BaseControllerTest {
         return this.eventRepository.save(event);
     }
 
+    @Test
+    @DisplayName("이벤트를 삭제")
+    public void deleteEvent() throws Exception {
+        Event event = Event.builder()
+                .id(123)
+                .build();
+        //given
+        this.mockMvc.perform(delete("/api/event/{id}"event.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(EventDto.builder().build()))
+        );
+
+
+        //when
+
+        //then
+
+    }
 
 }
