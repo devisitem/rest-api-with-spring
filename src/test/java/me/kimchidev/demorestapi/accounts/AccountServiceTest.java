@@ -60,8 +60,10 @@ public class  AccountServiceTest {
         expectedException.expect(UsernameNotFoundException.class);
         expectedException.expect(Matchers.containsString(userName ));
 
+
         //when
         accountService.loadUserByUsername(userName);
+
         
         //then
     
